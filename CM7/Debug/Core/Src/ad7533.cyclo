@@ -1,0 +1,2 @@
+../Core/Src/ad7533.c:21:6:AD7533_Init	1
+../Core/Src/ad7533.c:26:6:AD7533_Write	4

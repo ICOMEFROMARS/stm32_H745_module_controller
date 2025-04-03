@@ -1,0 +1,5 @@
+../Core/Src/ad5544.c:18:13:AD5544_CS_Low	8	static
+../Core/Src/ad5544.c:23:13:AD5544_CS_High	8	static
+../Core/Src/ad5544.c:28:6:AD5544_Init	8	static
+../Core/Src/ad5544.c:33:6:AD5544_WriteChannel	24	static
+../Core/Src/ad5544.c:54:6:AD5544_ClearAll	16	static

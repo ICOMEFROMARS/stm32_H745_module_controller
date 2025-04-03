@@ -1,0 +1,2 @@
+../Core/Src/adg506.c:19:6:ADG506_Init	4	static
+../Core/Src/adg506.c:24:6:ADG506_SelectChannel	16	static

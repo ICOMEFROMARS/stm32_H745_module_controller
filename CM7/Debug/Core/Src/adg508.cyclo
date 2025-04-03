@@ -1,0 +1,2 @@
+../Core/Src/adg508.c:16:6:ADG508_Init	1
+../Core/Src/adg508.c:21:6:ADG508_SelectChannel	5

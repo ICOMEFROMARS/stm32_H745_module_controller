@@ -1,0 +1,2 @@
+../Core/Src/mx574.c:31:6:MX574_Init	1
+../Core/Src/mx574.c:43:10:MX574_Read12Bit	3
