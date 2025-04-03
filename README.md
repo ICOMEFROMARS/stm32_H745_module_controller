@@ -1,1 +1,1 @@
-modüllerin açıklamaları pdf halinde eklenmiştir.
+Modül açıklamaları pdf halinde eklenmiştir.
