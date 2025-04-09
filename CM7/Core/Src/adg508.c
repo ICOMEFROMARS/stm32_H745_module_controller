@@ -14,14 +14,14 @@
 
 void ADG508_Init(void)
 {
-    ADG508_EN_Port->ODR &= ~ADG508_EN_Pin;  				// aktif
+    ADG508_EN_Port->ODR &= ~ADG508_EN_Pin;  				// analog anahtar aktif yani EN low
 }
 
 void ADG508_SelectChannel(uint8_t channel)
 {
-    if (channel > 7) return;
+    if (channel > 7) return;                                // gecersiz kanal kontrolu
 
-    if (channel & 0x01)
+    if (channel & 0x01)                                     // kanal numarasinin bitlerini secim pinlerine yaz
         ADG508_A0_Port->ODR |= ADG508_A0_Pin;
     else
         ADG508_A0_Port->ODR &= ~ADG508_A0_Pin;

@@ -19,25 +19,27 @@ void AD5544_Init(void) {
 }
 
 void AD5544_WriteChannel(uint8_t channel, uint16_t value) {
+                                             // SPI ile gonderilecek veri buffer'i hazirlaniyor
     uint8_t data[3];
-    data[0] = (channel & 0x03) << 6;
-    data[1] = (value >> 8) & 0xFF;
-    data[2] = value & 0xFF;
+    data[0] = (channel & 0x03) << 6;         // komut byte'i: kanal secimi 0-3
+    data[1] = (value >> 8) & 0xFF;           // MSB
+    data[2] = value & 0xFF;                  // LSB
 
-    AD5544_CS_Low();
+    AD5544_CS_Low();                         // DAC ile SPI baglantisi baslat
 
+                                             // 3 byte SPI ile gonderiliyor
     for (int i = 0; i < 3; i++) {
-        while (!(SPI1->SR & (1 << 1)));
-        SPI1->TXDR = data[i];
+        while (!(SPI1->SR & (1 << 1)));      // TX buffer bos olana kadar bekle
+        SPI1->TXDR = data[i];                // byte gonder
     }
 
-    while ((SPI1->SR & (1 << 0)));
+    while ((SPI1->SR & (1 << 0)));           // SPI gonderim tamamlanana kadar bekle
 
-    AD5544_CS_High();
+    AD5544_CS_High();                        // SPI iletisimi sonlandir
 }
 
 void AD5544_ClearAll(void) {
-    for (uint8_t ch = 0; ch < 4; ch++) {
+    for (uint8_t ch = 0; ch < 4; ch++) {     // tum DAC kanallarina sifir degeri gonderilir
         AD5544_WriteChannel(ch, 0x0000);
     }
 }

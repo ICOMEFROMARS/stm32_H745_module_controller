@@ -143,26 +143,30 @@ Error_Handler();
   while (1)
   {
 	  // AD5544
-	  //AD5544_WriteChannel(0, 0xAAAA);  // A kanalina gonder
-	  //AD5544_WriteChannel(1, 0x5555);  	// B kanalina gonder
+	  //AD5544_WriteChannel(0, 0xAAAA);  // kanal 0'a (A cikisi) 0xAAAA yani orta seviyeye yakin dijital deger gonderilir, DAC cikisinda buna karsilik gelen analog voltaj uretir
+	  //AD5544_WriteChannel(1, 0x5555);  // kanal 1'e (B cikisi) 0x5555 diger bir orta seviye dijital deger gonderilir
 	  //HAL_Delay(1000);
 
 
 	  // AD7533
-	  //AD7533_Write(0x155);  // 10-bit değer → 0001010101 (DB0=1, DB2=1, DB4=1, DB6=1, DB8=1)
+	  //AD7533_Write(0x155);  // DAC'a 0x155 (0001010101) yazilir. DB0, DB2, DB4, DB6, DB8 pinleri high yapilir
 	  //HAL_Delay(1000);
-	  //AD7533_Write(0x2AA);  // 10-bit değer → 0010101010 (DB1=1, DB3=1, DB5=1, DB7=1, DB9=1)
+	  //AD7533_Write(0x2AA);  // DAC'e 0x2AA (0010101010) yazilir. DB1, DB3, DB5, DB7, DB9 pinleri high yapilir
 	  //HAL_Delay(1000);
 
 
 	  // ADG508
+	  // 8 kanalin her biri sirasiyla secilir(kanal 0–7). Her kanal yaklasik 500ms boyunca aktif kalır
+	  // Bu, coklayicinin duzgun kanal anahtarlama yapip yapmadigini test etmek icindir
 	  //for (uint8_t ch = 0; ch < 8; ch++) {
-	  //    ADG508_SelectChannel(ch);  							// GPIOC->ODR ile kontrol
+	  //    ADG508_SelectChannel(ch);  							// kanal secimi(A0–A2 pinleri uzerinden), GPIOC->ODR ile kontrol  
 	  //    HAL_Delay(500);
 	  //}
 
 
 	  // ADG506
+	  // 16 kanalin her biri sirasiyla secilir (kanal 0–15)
+	  // Bu test 4 bit kanal seciminin (A0–A3) duzgun calistigini dogrular
 	  //for (uint8_t ch = 0; ch < 16; ch++) {
 	  //    ADG506_SelectChannel(ch);
 	  //    HAL_Delay(500);
@@ -170,6 +174,7 @@ Error_Handler();
 
 
 	  // MX574
+	  // ADC modulunden 12 bitlik dijital veri okunur, su anda donanim henuz baglanmadigi icin fonksiyon test verisi dondurmektedir
 	  //uint16_t adc_result = MX574_Read12Bit();					// modul olunca icindeki fake_data kismi silinecek
 	  //HAL_Delay(1000);
 

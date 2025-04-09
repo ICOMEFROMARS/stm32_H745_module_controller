@@ -17,25 +17,27 @@ static const uint16_t data_pins[10] = {
 #define AD7533_CS_Pin       GPIO_PIN_8
 
 void AD7533_Init(void) {
-    HAL_GPIO_WritePin(AD7533_CS_GPIO_Port, AD7533_CS_Pin, GPIO_PIN_SET);				// pasif
-    HAL_GPIO_WritePin(AD7533_WR_GPIO_Port, AD7533_WR_Pin, GPIO_PIN_SET); 			// pasif
+    // DAC pasif duruma getirilir yani CS ve WR pinleri HIGH yapýlýr
+    HAL_GPIO_WritePin(AD7533_CS_GPIO_Port, AD7533_CS_Pin, GPIO_PIN_SET);				
+    HAL_GPIO_WritePin(AD7533_WR_GPIO_Port, AD7533_WR_Pin, GPIO_PIN_SET); 			
 }
 
-void AD7533_Write(uint16_t value) {
+void AD7533_Write(uint16_t value) {                                                     // 10 bitlik veriyi pinlere bit bit yaz
 
     for (int i = 0; i < 10; i++) {
         if (value & (1 << i)) {
-            data_ports[i]->ODR |= data_pins[i]; 																					// high
+            data_ports[i]->ODR |= data_pins[i]; 																			// ilgili pin high
         } else {
-            data_ports[i]->ODR &= ~data_pins[i]; 																			// low
+            data_ports[i]->ODR &= ~data_pins[i]; 																			// ilgili pin low
         }
     }
 
-    AD7533_CS_GPIO_Port->BSRR = (uint32_t)AD7533_CS_Pin << 16;
-    AD7533_WR_GPIO_Port->BSRR = (uint32_t)AD7533_WR_Pin << 16;
-    for (volatile int i = 0; i < 10; i++);																							// kisa gecikme
-    AD7533_WR_GPIO_Port->BSRR = AD7533_WR_Pin;
-    AD7533_CS_GPIO_Port->BSRR = AD7533_CS_Pin;
+    // DAC üzerinde veri yazmak için gerekli pulse yani WR ve CS pinleri
+    AD7533_CS_GPIO_Port->BSRR = (uint32_t)AD7533_CS_Pin << 16; // CS low
+    AD7533_WR_GPIO_Port->BSRR = (uint32_t)AD7533_WR_Pin << 16; // WR low
+    for (volatile int i = 0; i < 10; i++);                     // kisa gecikme
+    AD7533_WR_GPIO_Port->BSRR = AD7533_WR_Pin;                 // WR high
+    AD7533_CS_GPIO_Port->BSRR = AD7533_CS_Pin;                 // CS high
 }
 
 
