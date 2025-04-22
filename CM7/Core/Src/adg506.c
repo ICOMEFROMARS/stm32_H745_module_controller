@@ -23,9 +23,11 @@ void ADG506_Init(void)
 
 void ADG506_SelectChannel(uint8_t channel)
 {
-    if (channel > 15) return;                                                                               // gecersiz kanal kontrolu
+    if (channel < 1 || channel > 16) return;                                                                // gecersiz kanal kontrolu (artik 1–16 arasi)
 
-    (channel & 0x01) ? (ADG506_A0_Port->ODR |= ADG506_A0_Pin) : (ADG506_A0_Port->ODR &= ~ADG506_A0_Pin);    // kanal secim pinlerine kanal numarasinin bitleri yazilir
+    channel -= 1;                                                                                           // donanim 0–15 bekledigi icin 1 eksiltilir
+
+    (channel & 0x01) ? (ADG506_A0_Port->ODR |= ADG506_A0_Pin) : (ADG506_A0_Port->ODR &= ~ADG506_A0_Pin);
     (channel & 0x02) ? (ADG506_A1_Port->ODR |= ADG506_A1_Pin) : (ADG506_A1_Port->ODR &= ~ADG506_A1_Pin);
     (channel & 0x04) ? (ADG506_A2_Port->ODR |= ADG506_A2_Pin) : (ADG506_A2_Port->ODR &= ~ADG506_A2_Pin);
     (channel & 0x08) ? (ADG506_A3_Port->ODR |= ADG506_A3_Pin) : (ADG506_A3_Port->ODR &= ~ADG506_A3_Pin);
